@@ -5,3 +5,5 @@ __pycache__
 
 # Ignore PyCharm / IntelliJ files
 .idea/
+
+.env
