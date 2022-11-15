@@ -24,3 +24,17 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         instance = serializer.save()
         instance.set_password(instance.password)
         instance.save()
+
+# endpoint: create company
+
+
+class CreateCompany(generics.CreateAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    name = 'company-create'
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        self.request.user.is_company = True
+        self.request.user.save()
+
