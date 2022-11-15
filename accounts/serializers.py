@@ -23,3 +23,20 @@ class UserCreateSerializer(UserCreateSerializer):
             'is_member',
             'is_company'
         ]
+
+
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = [
+            'id',
+            'user',
+            'name',
+            'description',
+            'contact_number',
+            'contact_email',
+            'main_front',
+            'main_back',
+            'available_places',
+            'places'
+        ]
