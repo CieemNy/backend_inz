@@ -79,3 +79,17 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+
+class Company(models.Model):
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=False, blank=False)
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    contact_number = models.CharField(max_length=255)
+    contact_email = models.CharField(max_length=255)
+    main_front = models.CharField(max_length=255)
+    main_back = models.CharField(max_length=255)
+    available_places = models.IntegerField(default=0)
+    places = models.IntegerField()
+
+    def __str__(self):
+        return self.name
