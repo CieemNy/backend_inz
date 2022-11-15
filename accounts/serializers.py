@@ -8,6 +8,8 @@ User = get_user_model()
 
 
 class UserCreateSerializer(UserCreateSerializer):
+    company = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
     class Meta(UserCreateSerializer.Meta):
         model = User
         fields = [
@@ -26,6 +28,8 @@ class UserCreateSerializer(UserCreateSerializer):
 
 
 class CompanySerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.email')
+
     class Meta:
         model = Company
         fields = [
