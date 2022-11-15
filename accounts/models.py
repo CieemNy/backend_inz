@@ -81,6 +81,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
 
 class Company(models.Model):
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=False, blank=False)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=255)
