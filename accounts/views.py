@@ -25,10 +25,10 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         instance.set_password(instance.password)
         instance.save()
 
+
 # endpoint: create company
 
-
-class CreateCompany(generics.CreateAPIView):
+class CreateCompany(generics.ListCreateAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     name = 'company-create'
@@ -38,3 +38,8 @@ class CreateCompany(generics.CreateAPIView):
         self.request.user.is_company = True
         self.request.user.save()
 
+
+class ListCompany(generics.ListAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    name = 'company-list'
