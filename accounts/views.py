@@ -39,7 +39,17 @@ class CreateCompany(generics.ListCreateAPIView):
         self.request.user.save()
 
 
+# endpoint: list companies
+
 class ListCompany(generics.ListAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     name = 'company-list'
+
+
+# endpoint: display single company
+
+class CompanyDetail(generics.RetrieveAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    name = 'company-detail'
