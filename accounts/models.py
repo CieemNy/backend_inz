@@ -60,6 +60,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     surname = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)  # czy aktywne konto
     is_staff = models.BooleanField(default=False)  # czy może zalogować się do panelu admina
+    is_verified = models.BooleanField(default=False)  # czy zweryfikowany
     is_superuser = models.BooleanField(default=False)  # czy admin
     is_leader = models.BooleanField(default=False)  # czy lider zespołu
     is_member = models.BooleanField(default=False)  # czy członek zespołu
@@ -88,7 +89,7 @@ class Company(models.Model):
     contact_email = models.CharField(max_length=255)
     main_front = models.CharField(max_length=255)
     main_back = models.CharField(max_length=255)
-    available_places = models.IntegerField(default=0)
+    available_places = models.IntegerField()
     places = models.IntegerField()
 
     def __str__(self):

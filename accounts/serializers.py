@@ -28,7 +28,7 @@ class UserCreateSerializer(UserCreateSerializer):
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.email')
+    user = serializers.ReadOnlyField(source='user.name')
 
     class Meta:
         model = Company
