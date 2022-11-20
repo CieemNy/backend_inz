@@ -60,6 +60,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     surname = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)  # czy aktywne konto
     is_staff = models.BooleanField(default=False)  # czy może zalogować się do panelu admina
+    is_verified = models.BooleanField(default=False)  # czy zweryfikowany
     is_superuser = models.BooleanField(default=False)  # czy admin
     is_leader = models.BooleanField(default=False)  # czy lider zespołu
     is_member = models.BooleanField(default=False)  # czy członek zespołu
@@ -68,7 +69,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'surname']
+    REQUIRED_FIELDS = ['name', 'surname', 'is_superuser', 'is_leader', 'is_member', 'is_company', 'is_verified']
 
     def get_full_name(self):
         return self.name + ' ' + self.surname
@@ -79,3 +80,17 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+
+class Company(models.Model):
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=False, blank=False)
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    contact_number = models.CharField(max_length=255)
+    contact_email = models.CharField(max_length=255)
+    main_front = models.CharField(max_length=255)
+    main_back = models.CharField(max_length=255)
+    available_places = models.IntegerField(default=0)
+    places = models.IntegerField()
+
+    def __str__(self):
+        return self.name
