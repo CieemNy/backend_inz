@@ -69,7 +69,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'surname', 'is_superuser', 'is_leader', 'is_member', 'is_company']
+    REQUIRED_FIELDS = ['name', 'surname', 'is_superuser', 'is_leader', 'is_member', 'is_company', 'is_verified']
 
     def get_full_name(self):
         return self.name + ' ' + self.surname
@@ -89,7 +89,7 @@ class Company(models.Model):
     contact_email = models.CharField(max_length=255)
     main_front = models.CharField(max_length=255)
     main_back = models.CharField(max_length=255)
-    available_places = models.IntegerField()
+    available_places = models.IntegerField(default=0)
     places = models.IntegerField()
 
     def __str__(self):

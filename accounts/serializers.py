@@ -23,7 +23,8 @@ class UserCreateSerializer(UserCreateSerializer):
             'is_superuser',
             'is_leader',
             'is_member',
-            'is_company'
+            'is_company',
+            'is_verified'
         ]
 
 
