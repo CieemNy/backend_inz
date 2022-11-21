@@ -9,6 +9,7 @@ User = get_user_model()
 
 class UserCreateSerializer(UserCreateSerializer):
     company = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    team = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta(UserCreateSerializer.Meta):
         model = User
@@ -45,3 +46,23 @@ class CompanySerializer(serializers.ModelSerializer):
             'occupied_places',
             'places'
         ]
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.name')
+
+    class Meta:
+        model = Team
+        fields = [
+            'id',
+            'name',
+            'occupied_places',
+            'places',
+            'creation_date',
+            'completion_date'
+        ]
+
+    def validate(self, data):
+        if data['occupied_places'] == data['places']:
+            raise serializers.ValidationError("Osiągnięto limit osób w drużynie")
+        return data
