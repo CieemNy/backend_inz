@@ -65,6 +65,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_leader = models.BooleanField(default=False)  # czy lider zespołu
     is_member = models.BooleanField(default=False)  # czy członek zespołu
     is_company = models.BooleanField(default=False)  # czy przedstawiciel firmy
+    team = models.ForeignKey('Team', on_delete=models.CASCADE, null=True)
 
     objects = UserAccountManager()
 
@@ -89,7 +90,17 @@ class Company(models.Model):
     contact_email = models.CharField(max_length=255)
     main_front = models.CharField(max_length=255)
     main_back = models.CharField(max_length=255)
-    available_places = models.IntegerField(default=0)
+    occupied_places = models.IntegerField(default=0)
+    places = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+
+class Team(models.Model):
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=False, blank=False)
+    name = models.CharField(max_length=255)
+    occupied_places = models.IntegerField(default=0)
     places = models.IntegerField()
 
     def __str__(self):
