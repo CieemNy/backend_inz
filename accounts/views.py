@@ -57,11 +57,10 @@ class CompanyDetail(generics.RetrieveAPIView):
 
 class CreateTeam(generics.CreateAPIView):
     queryset = Team.objects.all()
-    serializer_class = CompanySerializer
+    serializer_class = TeamSerializer
     name = 'team-create'
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user, occupied_places=+1)
         self.request.user.is_leader = True
-        self.request.team.occupied_places = +1
         self.request.user.save()
