@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+import datetime
 
 
 class UserAccountManager(BaseUserManager):
@@ -65,7 +66,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_leader = models.BooleanField(default=False)  # czy lider zespołu
     is_member = models.BooleanField(default=False)  # czy członek zespołu
     is_company = models.BooleanField(default=False)  # czy przedstawiciel firmy
-    team = models.ForeignKey('Team', on_delete=models.CASCADE, null=True)
+    membership = models.ForeignKey('Team', on_delete=models.CASCADE, null=True)
 
     objects = UserAccountManager()
 
@@ -102,6 +103,8 @@ class Team(models.Model):
     name = models.CharField(max_length=255)
     occupied_places = models.IntegerField(default=0)
     places = models.IntegerField()
+    creation_date = models.DateField(default=datetime.date.today)
+    completion_date = models.DateField()
 
     def __str__(self):
         return self.name
