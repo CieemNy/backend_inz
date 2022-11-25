@@ -64,4 +64,3 @@ class CreateTeam(generics.CreateAPIView):
         serializer.save(user=self.request.user, occupied_places=+1)
         self.request.user.is_leader = True
         self.request.user.save()
-

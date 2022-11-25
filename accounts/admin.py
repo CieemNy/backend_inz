@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import UserAccount, Company, Team
+from .models import UserAccount, Company, Team, Members
 
 
 class UserAccountAdmin(admin.ModelAdmin):
@@ -16,6 +16,11 @@ class TeamAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'name', 'occupied_places', 'places', 'creation_date']
 
 
+class MembersAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'team']
+
+
 admin.site.register(UserAccount, UserAccountAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Team, TeamAdmin)
+admin.site.register(Members, MembersAdmin)
