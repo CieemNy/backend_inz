@@ -67,3 +67,16 @@ class TeamSerializer(serializers.ModelSerializer):
         if occupied_places == data['places']:
             raise serializers.ValidationError("Osiągnięto limit osób w drużynie")
         return data
+
+
+class MembersSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.name')
+    team = serializers.ReadOnlyField(source='team.name')
+
+    class Meta:
+        model = Members
+        fields = [
+            'id',
+            'user',
+            'team',
+        ]
