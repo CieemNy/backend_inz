@@ -29,7 +29,6 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 # endpoint: create company
 
 class CreateCompany(generics.ListCreateAPIView):
-    queryset = Company.objects.all()
     serializer_class = CompanySerializer
     name = 'company-create'
 
@@ -55,8 +54,9 @@ class CompanyDetail(generics.RetrieveAPIView):
     name = 'company-detail'
 
 
+# endpoint: create team
+
 class CreateTeam(generics.CreateAPIView):
-    queryset = Team.objects.all()
     serializer_class = TeamSerializer
     name = 'team-create'
 
@@ -64,3 +64,4 @@ class CreateTeam(generics.CreateAPIView):
         serializer.save(user=self.request.user, occupied_places=+1)
         self.request.user.is_leader = True
         self.request.user.save()
+

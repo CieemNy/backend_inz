@@ -60,7 +60,6 @@ class TeamSerializer(serializers.ModelSerializer):
             'occupied_places',
             'places',
             'creation_date',
-            'completion_date'
         ]
 
     def validate(self, data):
