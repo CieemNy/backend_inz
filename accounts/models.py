@@ -102,7 +102,6 @@ class Team(models.Model):
     occupied_places = models.IntegerField(default=0)
     places = models.IntegerField()
     creation_date = models.DateField(default=datetime.date.today)
-    completion_date = models.DateField(null=True)
 
     def __str__(self):
         return self.name
