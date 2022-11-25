@@ -109,4 +109,4 @@ class Team(models.Model):
 
 class Members(models.Model):
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=False, blank=False)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=False, blank=False)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=False)
