@@ -82,7 +82,7 @@ class ListTeams(generics.ListAPIView):
 
 class UserTeam(generics.ListAPIView):
     serializer_class = TeamSerializer
-    name = 'team-list'
+    name = 'user-team'
 
     def get_queryset(self):
         return Team.objects.filter(members__user=self.request.user)
