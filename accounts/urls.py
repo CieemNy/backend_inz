@@ -11,4 +11,5 @@ urlpatterns = [
     path('company/add', views.CreateCompany.as_view(), name='create-company'),
     path('teams', views.ListTeams.as_view(), name='list-team'),
     path('teams/create', views.CreateTeam.as_view(), name='create-team'),
+    path('user/team', views.UserTeam.as_view(), name='user-team'),
 ]

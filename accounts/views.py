@@ -70,7 +70,19 @@ class CreateTeam(generics.CreateAPIView):
             member.save()
 
 
+# endpoint: create team
+
 class ListTeams(generics.ListAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
     name = 'team-list'
+
+
+# endpoint: display user team
+
+class UserTeam(generics.ListAPIView):
+    serializer_class = TeamSerializer
+    name = 'team-list'
+
+    def get_queryset(self):
+        return Team.objects.filter(members__user=self.request.user)
