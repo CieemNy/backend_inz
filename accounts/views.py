@@ -69,3 +69,8 @@ class CreateTeam(generics.CreateAPIView):
             member = Members.objects.create(team=team, user=self.request.user)
             member.save()
 
+
+class ListTeams(generics.ListAPIView):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
+    name = 'team-list'
