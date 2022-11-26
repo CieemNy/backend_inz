@@ -109,5 +109,3 @@ class JoinTeam(APIView):
             return Response(serializer.data)
         if team.occupied_places >= team.places:
             return HttpResponse("brak dostępnych miejsc")
-
-
