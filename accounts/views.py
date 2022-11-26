@@ -96,16 +96,18 @@ class UserTeam(generics.ListAPIView):
 class JoinTeam(APIView):
     def post(self, request, pk):
         team = Team.objects.get(id=pk)
-        new_member = Members.objects.create(
-            user=self.request.user,
-            team=team
-        )
-        serializer = MembersSerializer(new_member)
-        self.request.user.is_member = True
-        self.request.user.save()
-        team.occupied_places += 1
-        team.save()
+        if team.occupied_places < team.places:
+            new_member = Members.objects.create(
+                user=self.request.user,
+                team=team
+            )
+            serializer = MembersSerializer(new_member)
+            self.request.user.is_member = True
+            self.request.user.save()
+            team.occupied_places += 1
+            team.save()
+            return Response(serializer.data)
         if team.occupied_places >= team.places:
             return HttpResponse("brak dostępnych miejsc")
-        return Response(serializer.data)
+
 
