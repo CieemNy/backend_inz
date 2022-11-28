@@ -41,8 +41,6 @@ class CompanySerializer(serializers.ModelSerializer):
             'description',
             'contact_number',
             'contact_email',
-            'main_front',
-            'main_back',
             'occupied_places',
             'places'
         ]

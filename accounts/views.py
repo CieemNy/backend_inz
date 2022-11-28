@@ -91,6 +91,16 @@ class UserTeam(generics.ListAPIView):
         return Team.objects.filter(members__user=self.request.user)
 
 
+# endpoint: display user company
+
+class UserCompany(generics.ListAPIView):
+    serializer_class = CompanySerializer
+    name = 'user-team'
+
+    def get_queryset(self):
+        return Company.objects.filter(user=self.request.user)
+
+
 # endpoint: join team
 
 class JoinTeam(APIView):
