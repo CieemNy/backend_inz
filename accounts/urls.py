@@ -14,8 +14,10 @@ urlpatterns = [
     path('company', views.ListCompany.as_view(), name='list-company'),
     path('company/<int:pk>', views.CompanyDetail.as_view(), name='company-detail'),
     path('company/add', views.CreateCompany.as_view(), name='create-company'),
-    # teams company
+    # teams endpoints
     path('teams', views.ListTeams.as_view(), name='list-team'),
+    path('teams/<int:pk>', views.TeamDetail.as_view(), name='team-detail'),
+    path('teams/<int:pk>/members', views.team_members, name='team-members'),
     path('teams/<int:pk>/join', JoinTeam.as_view(), name='join-team'),
     path('teams/create', views.CreateTeam.as_view(), name='create-team'),
 ]

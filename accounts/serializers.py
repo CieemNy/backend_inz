@@ -31,6 +31,10 @@ class UserCreateSerializer(UserCreateSerializer):
 
 class CompanySerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.name')
+    companyMan = serializers.SerializerMethodField()
+
+    def get_companyMan(self, obj):
+        return f'{obj.user.name} {obj.user.surname}'
 
     class Meta:
         model = Company
@@ -42,12 +46,17 @@ class CompanySerializer(serializers.ModelSerializer):
             'contact_number',
             'contact_email',
             'occupied_places',
-            'places'
+            'places',
+            'companyMan'
         ]
 
 
 class TeamSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.name')
+    leader = serializers.SerializerMethodField()
+
+    def get_leader(self, obj):
+        return f'{obj.user.name} {obj.user.surname}'
 
     class Meta:
         model = Team
@@ -58,6 +67,7 @@ class TeamSerializer(serializers.ModelSerializer):
             'occupied_places',
             'places',
             'creation_date',
+            'leader'
         ]
 
     def validate(self, data):
@@ -68,8 +78,11 @@ class TeamSerializer(serializers.ModelSerializer):
 
 
 class MembersSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.name')
     team = serializers.ReadOnlyField(source='team.id')
+    member = serializers.SerializerMethodField()
+
+    def get_member(self, obj):
+        return f'{obj.user.name} {obj.user.surname}'
 
     class Meta:
         model = Members
@@ -77,4 +90,5 @@ class MembersSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'team',
+            'member'
         ]

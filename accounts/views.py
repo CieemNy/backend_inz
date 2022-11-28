@@ -4,6 +4,7 @@ from .serializers import *
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 User = get_user_model()
 
@@ -73,6 +74,13 @@ class CreateTeam(generics.CreateAPIView):
             member.save()
 
 
+# endpoint: display team
+class TeamDetail(generics.RetrieveAPIView):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
+    name = 'team-detail'
+
+
 # endpoint: create team
 
 class ListTeams(generics.ListAPIView):
@@ -119,3 +127,11 @@ class JoinTeam(APIView):
             return Response(serializer.data)
         if team.occupied_places >= team.places:
             return HttpResponse("brak dostępnych miejsc")
+
+
+@api_view(['GET'])
+def team_members(request, pk):
+    if request.method == 'GET':
+        members = Members.objects.all().filter(team=pk)
+        serializer = MembersSerializer(members, many=True)
+        return Response(serializer.data)
