@@ -1,10 +1,14 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from rest_framework.permissions import AllowAny
+
 from .serializers import *
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.exceptions import InvalidToken
+
 
 User = get_user_model()
 
@@ -67,6 +71,7 @@ class CreateTeam(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user, occupied_places=+1)
         self.request.user.is_leader = True
+        self.request.user.is_member = True
         self.request.user.save()
         if serializer.is_valid():
             team = Team.objects.get(pk=serializer.data['id'])
@@ -107,26 +112,6 @@ class UserCompany(generics.ListAPIView):
 
     def get_queryset(self):
         return Company.objects.filter(user=self.request.user)
-
-
-# endpoint: join team
-
-class JoinTeam(APIView):
-    def post(self, request, pk):
-        team = Team.objects.get(id=pk)
-        if team.occupied_places < team.places:
-            new_member = Members.objects.create(
-                user=self.request.user,
-                team=team
-            )
-            serializer = MembersSerializer(new_member)
-            self.request.user.is_member = True
-            self.request.user.save()
-            team.occupied_places += 1
-            team.save()
-            return Response(serializer.data)
-        if team.occupied_places >= team.places:
-            return HttpResponse("brak dostępnych miejsc")
 
 
 @api_view(['GET'])

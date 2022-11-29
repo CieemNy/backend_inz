@@ -1,7 +1,7 @@
 from django.urls import path, include
 from . import views
 from django.contrib import admin
-from .views import JoinTeam
+
 
 admin.site.site_url = 'http://127.0.0.1:8000/accounts/'
 urlpatterns = [
@@ -18,6 +18,5 @@ urlpatterns = [
     path('teams', views.ListTeams.as_view(), name='list-team'),
     path('teams/<int:pk>', views.TeamDetail.as_view(), name='team-detail'),
     path('teams/<int:pk>/members', views.team_members, name='team-members'),
-    path('teams/<int:pk>/join', JoinTeam.as_view(), name='join-team'),
     path('teams/create', views.CreateTeam.as_view(), name='create-team'),
 ]
