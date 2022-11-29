@@ -1,14 +1,12 @@
 from django.http import HttpResponse
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .serializers import *
-from rest_framework import generics, permissions
-from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework_simplejwt.exceptions import InvalidToken
-
+from rest_framework.decorators import api_view
 
 User = get_user_model()
 
@@ -69,7 +67,7 @@ class CreateTeam(generics.CreateAPIView):
     name = 'team-create'
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user, occupied_places=+1)
+        serializer.save(user=self.request.user, occupied_places=1)
         self.request.user.is_leader = True
         self.request.user.is_member = True
         self.request.user.save()
@@ -122,3 +120,62 @@ def team_members(request, pk):
         members = Members.objects.all().filter(team=pk)
         serializer = MembersSerializer(members, many=True)
         return Response(serializer.data)
+
+
+# endpoint: join team
+# class TeamJoin(generics.UpdateAPIView):
+#     queryset = Team.objects.all()
+#     serializer_class = TeamSerializer
+#     name = 'team-join'
+#
+#     def perform_update(self, serializer):
+#         self.request.user.is_member = True
+#         self.request.user.save()
+#         if serializer.is_valid():
+#             team = Team.objects.get(pk=serializer.data['id'])
+#             team.occupied_places += 1
+#             team.save()
+#             member = Members.objects.create(team=team, user=self.request.user)
+#             member.save()
+
+# class TeamJoin(generics.UpdateAPIView):
+#     queryset = Team.objects.all()
+#     serializer_class = TeamSerializer
+#     name = 'team-join'
+#
+#     def update(self, request, *args, **kwargs):
+#         data = request.data
+#         team = Team.objects.get(id=data['team'])
+#         if team.occupied_places < team.places:
+#             new_member = Members.objects.create(
+#                 user=self.request.user,
+#                 team=team
+#             )
+#             new_member.save()
+#             team.occupied_places += 1
+#             self.request.user.is_member = True
+#         else:
+#             return "Osiągnieto limit miejsc w zespole"
+#         serializer = TeamSerializer(team)
+#         return Response(serializer)
+
+
+class JoinTeam(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        team = Team.objects.get(id=pk)
+        if team.occupied_places < team.places:
+            member = Members.objects.create(
+                team=team,
+                user=request.user,
+            )
+            serializer = MembersSerializer(member)
+            request.user.is_member = True
+            request.user.save()
+            team.occupied_places += 1
+            team.save()
+            return Response(serializer.data)
+        else:
+            return HttpResponse("brak dostępnych miejsc")

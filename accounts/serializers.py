@@ -70,14 +70,9 @@ class TeamSerializer(serializers.ModelSerializer):
             'leader'
         ]
 
-    def validate(self, data):
-        occupied_places = self.context.get('occupied_places')
-        if occupied_places == data['places']:
-            raise serializers.ValidationError("Osiągnięto limit osób w drużynie")
-        return data
-
 
 class MembersSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
     team = serializers.ReadOnlyField(source='team.id')
     member = serializers.SerializerMethodField()
 
