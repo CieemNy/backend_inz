@@ -114,6 +114,8 @@ class UserCompany(generics.ListAPIView):
         return Company.objects.filter(user=self.request.user)
 
 
+# endpoint: display team members
+
 @api_view(['GET'])
 def team_members(request, pk):
     if request.method == 'GET':
