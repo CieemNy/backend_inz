@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .serializers import *
+from rest_framework import permissions
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -122,54 +123,16 @@ def team_members(request, pk):
         return Response(serializer.data)
 
 
-# endpoint: join team
-# class TeamJoin(generics.UpdateAPIView):
-#     queryset = Team.objects.all()
-#     serializer_class = TeamSerializer
-#     name = 'team-join'
-#
-#     def perform_update(self, serializer):
-#         self.request.user.is_member = True
-#         self.request.user.save()
-#         if serializer.is_valid():
-#             team = Team.objects.get(pk=serializer.data['id'])
-#             team.occupied_places += 1
-#             team.save()
-#             member = Members.objects.create(team=team, user=self.request.user)
-#             member.save()
-
-# class TeamJoin(generics.UpdateAPIView):
-#     queryset = Team.objects.all()
-#     serializer_class = TeamSerializer
-#     name = 'team-join'
-#
-#     def update(self, request, *args, **kwargs):
-#         data = request.data
-#         team = Team.objects.get(id=data['team'])
-#         if team.occupied_places < team.places:
-#             new_member = Members.objects.create(
-#                 user=self.request.user,
-#                 team=team
-#             )
-#             new_member.save()
-#             team.occupied_places += 1
-#             self.request.user.is_member = True
-#         else:
-#             return "Osiągnieto limit miejsc w zespole"
-#         serializer = TeamSerializer(team)
-#         return Response(serializer)
-
-
 class JoinTeam(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = (permissions.IsAuthenticated, )
 
     def post(self, request, pk):
         team = Team.objects.get(id=pk)
         if team.occupied_places < team.places:
             member = Members.objects.create(
                 team=team,
-                user=request.user,
+                user=self.request.user,
             )
             serializer = MembersSerializer(member)
             request.user.is_member = True
