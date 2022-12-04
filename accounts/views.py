@@ -1,10 +1,10 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .serializers import *
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -141,4 +141,4 @@ class JoinTeam(APIView):
             team.save()
             return Response(serializer.data)
         else:
-            return HttpResponse("brak dostępnych miejsc")
+            return Response("Brak dostępnych miejsc", status.HTTP_400_BAD_REQUEST)
