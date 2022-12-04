@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+import datetime
 
 
 class UserAccountManager(BaseUserManager):
@@ -65,6 +66,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_leader = models.BooleanField(default=False)  # czy lider zespołu
     is_member = models.BooleanField(default=False)  # czy członek zespołu
     is_company = models.BooleanField(default=False)  # czy przedstawiciel firmy
+    membership = models.ForeignKey('Team', on_delete=models.CASCADE, null=True)
 
     objects = UserAccountManager()
 
@@ -87,10 +89,24 @@ class Company(models.Model):
     description = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=255)
     contact_email = models.CharField(max_length=255)
-    main_front = models.CharField(max_length=255)
-    main_back = models.CharField(max_length=255)
-    available_places = models.IntegerField(default=0)
+    occupied_places = models.IntegerField(default=0)
     places = models.IntegerField()
 
     def __str__(self):
         return self.name
+
+
+class Team(models.Model):
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=False, blank=False)
+    name = models.CharField(max_length=255)
+    occupied_places = models.IntegerField(default=0)
+    places = models.IntegerField()
+    creation_date = models.DateField(default=datetime.date.today)
+
+    def __str__(self):
+        return self.name
+
+
+class Members(models.Model):
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=False, blank=False)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=False)
