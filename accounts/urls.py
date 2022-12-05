@@ -22,5 +22,6 @@ urlpatterns = [
     path('teams/<int:pk>/join', JoinTeam.as_view(), name='team-join'),
     path('teams/create', views.CreateTeam.as_view(), name='create-team'),
     # company project endpoints
-    path('company/<int:pk>/project/add', CreateProject.as_view(), name='create-project')
+    path('company/<int:pk>/projects/', CreateProject.as_view(), name='display-projects'),
+    path('company/<int:pk>/projects/add', CreateProject.as_view(), name='create-project')
 ]
