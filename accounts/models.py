@@ -113,7 +113,7 @@ class Members(models.Model):
 
 
 class Project(models.Model):
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     front = models.CharField(max_length=255)
