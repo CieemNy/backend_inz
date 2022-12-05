@@ -146,7 +146,7 @@ class JoinTeam(APIView):
 
 class CreateProject(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = (permissions.IsAuthenticated)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, pk):
         company = Company.objects.get(id=pk)
