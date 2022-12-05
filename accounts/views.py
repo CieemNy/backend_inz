@@ -158,3 +158,13 @@ class CreateProject(APIView):
             front=project_data['front'],
             back=project_data['back']
         )
+
+
+class ListCompanyProject(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, pk):
+        company = Company.objects.get(id=pk)
+        projects = Project.objects.filter(company=company)
+        serializer = ProjectSerializer(projects, many=True)
