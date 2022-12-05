@@ -141,25 +141,28 @@ class JoinTeam(APIView):
             team.save()
             return Response(serializer.data)
         else:
-            return Response("Brak dostępnych miejsc", status.HTTP_400_BAD_REQUEST)
+            return Response("Brak dostępnych miejsc", status.HTTP_403_FORBIDDEN)
 
 
 class CreateProject(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated)
 
     def post(self, request, pk):
         company = Company.objects.get(id=pk)
-        project_data = request.data
-        project = Project.objects.create(
-            company=company,
-            title=project_data['title'],
-            description=project_data['description'],
-            front=project_data['front'],
-            back=project_data['back']
-        )
-        serializer = ProjectSerializer(project)
-        return Response(serializer.data)
+        if company.user != self.request.user:
+            return Response("Nie jesteś właścicielem firmy", status.HTTP_403_FORBIDDEN)
+        else:
+            project_data = request.data
+            project = Project.objects.create(
+                company=company,
+                title=project_data['title'],
+                description=project_data['description'],
+                front=project_data['front'],
+                back=project_data['back']
+            )
+            serializer = ProjectSerializer(project)
+            return Response(serializer.data)
 
 
 class ListCompanyProject(APIView):
