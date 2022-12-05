@@ -30,7 +30,7 @@ class UserCreateSerializer(UserCreateSerializer):
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.name')
+    user = serializers.ReadOnlyField(source='user.id')
     companyMan = serializers.SerializerMethodField()
 
     def get_companyMan(self, obj):
