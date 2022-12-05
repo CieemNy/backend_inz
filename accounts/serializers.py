@@ -87,3 +87,18 @@ class MembersSerializer(serializers.ModelSerializer):
             'team',
             'member'
         ]
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    company = serializers.ReadOnlyField(source='company.id')
+
+    class Meta:
+        model = Project
+        fields = [
+            'id',
+            'company',
+            'title',
+            'description',
+            'front',
+            'back'
+        ]
