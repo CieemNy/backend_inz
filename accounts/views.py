@@ -158,6 +158,8 @@ class CreateProject(APIView):
             front=project_data['front'],
             back=project_data['back']
         )
+        serializer = ProjectSerializer(project)
+        return Response(serializer.data)
 
 
 class ListCompanyProject(APIView):
@@ -168,3 +170,4 @@ class ListCompanyProject(APIView):
         company = Company.objects.get(id=pk)
         projects = Project.objects.filter(company=company)
         serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
