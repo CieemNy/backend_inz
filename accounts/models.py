@@ -66,6 +66,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_leader = models.BooleanField(default=False)  # czy lider zespołu
     is_member = models.BooleanField(default=False)  # czy członek zespołu
     is_company = models.BooleanField(default=False)  # czy przedstawiciel firmy
+    is_companyOwner = models.BooleanField(default=False)  # czy jest właścicielem firmy
 
     objects = UserAccountManager()
 
