@@ -99,6 +99,7 @@ class Company(models.Model):
 class Team(models.Model):
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=False, blank=False)
     name = models.CharField(max_length=255)
+    access_code = models.CharField(max_length=255)
     occupied_places = models.IntegerField(default=0)
     places = models.IntegerField()
     creation_date = models.DateField(default=datetime.date.today)
