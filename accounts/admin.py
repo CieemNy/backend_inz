@@ -4,7 +4,7 @@ from .models import UserAccount, Company, Team, Members, Project
 
 
 class UserAccountAdmin(admin.ModelAdmin):
-    list_display = ['id', 'is_superuser', 'is_staff', 'email', 'name', 'surname', 'is_active', 'is_verified', 'is_company', 'is_leader', 'is_member']
+    list_display = ['id', 'is_superuser', 'is_staff', 'email', 'name', 'surname', 'is_active', 'is_verified', 'is_company', 'is_leader', 'is_member', 'is_companyOwner']
     list_editable = ['is_verified', 'is_company', 'is_leader', 'is_member']
 
 
