@@ -125,11 +125,20 @@ def team_members(request, pk):
 
 class JoinTeam(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, pk):
+        data = self.request.data
+        access_code = data['access_code']
         team = Team.objects.get(id=pk)
-        if team.occupied_places < team.places:
+        if access_code != team.access_code:
+            return Response("Nieprawidłowy kod dostępu do teamu", status.HTTP_403_FORBIDDEN)
+        if team.occupied_places >= team.places:
+            return Response("Brak dostępnych miejsc", status.HTTP_403_FORBIDDEN)
+        if self.request.user.is_leader == True or self.request.user.is_member == True or self.request.user.is_company == True:
+            return Response("Posiadasz jedną z ról, które uniemozliwiają dołaczenie do zespołu",
+                            status.HTTP_403_FORBIDDEN)
+        else:
             member = Members.objects.create(
                 team=team,
                 user=self.request.user,
@@ -140,8 +149,6 @@ class JoinTeam(APIView):
             team.occupied_places += 1
             team.save()
             return Response(serializer.data)
-        else:
-            return Response("Brak dostępnych miejsc", status.HTTP_403_FORBIDDEN)
 
 
 class CreateProject(APIView):
