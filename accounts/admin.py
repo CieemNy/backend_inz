@@ -13,7 +13,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
 
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'name', 'occupied_places', 'places', 'creation_date']
+    list_display = ['id', 'user', 'name', 'access_code', 'occupied_places', 'places', 'creation_date']
 
 
 class MembersAdmin(admin.ModelAdmin):

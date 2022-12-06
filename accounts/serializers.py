@@ -65,6 +65,7 @@ class TeamSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'name',
+            'access_code',
             'occupied_places',
             'places',
             'creation_date',
