@@ -110,3 +110,14 @@ class Team(models.Model):
 class Members(models.Model):
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, null=False, blank=False)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=False)
+
+
+class Project(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    front = models.CharField(max_length=255)
+    back = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
