@@ -4,13 +4,13 @@ import datetime
 
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, name, surname, password=None):
+    def create_user(self, email, name, surname, password=None, is_company=None):
         if not email:
             raise ValueError('Users must have an email address')
 
         email = self.normalize_email(email)
         email = email.lower()
-        user = self.model(email=email, name=name, surname=surname)
+        user = self.model(email=email, name=name, surname=surname, is_company=is_company)
 
         user.set_password(password)
         user.save()
@@ -66,7 +66,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_leader = models.BooleanField(default=False)  # czy lider zespołu
     is_member = models.BooleanField(default=False)  # czy członek zespołu
     is_company = models.BooleanField(default=False)  # czy przedstawiciel firmy
-    membership = models.ForeignKey('Team', on_delete=models.CASCADE, null=True)
 
     objects = UserAccountManager()
 
