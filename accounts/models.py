@@ -71,7 +71,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'surname', 'is_company', 'is_superuser', 'is_leader', 'is_member', 'is_verified', 'is_companyOwner']
+    REQUIRED_FIELDS = ['name', 'surname', 'is_company', 'is_superuser', 'is_leader', 'is_member', 'is_verified',
+                       'is_companyOwner']
 
     def get_full_name(self):
         return self.name + ' ' + self.surname
@@ -122,3 +123,14 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class TeamChoices(models.Model):
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    choice_first = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='choice_first')
+    choice_second = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='choice_second')
+    choice_third = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='choice_third')
+    choice_fourth = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='choice_fourth')
+    final_choice = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, related_name='choice_one')
+    is_considered = models.BooleanField(default=False)  # czy rozpatrzony przy administratora
+    date = models.DateField(default=datetime.date.today)
