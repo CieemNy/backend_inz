@@ -104,3 +104,19 @@ class ProjectSerializer(serializers.ModelSerializer):
             'front',
             'back'
         ]
+
+
+class TeamChoicesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TeamChoices
+        fields = [
+            'id',
+            'choice_first',
+            'choice_second',
+            'choice_third',
+            'choice_fourth',
+            'final_choice',
+            'is_considered',
+            'date',
+        ]
