@@ -107,6 +107,12 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class TeamChoicesSerializer(serializers.ModelSerializer):
+    team = serializers.ReadOnlyField(source='team.id')
+    choice_first = serializers.ReadOnlyField(source='company.id')
+    choice_second = serializers.ReadOnlyField(source='company.id')
+    choice_third = serializers.ReadOnlyField(source='company.id')
+    choice_fourth = serializers.ReadOnlyField(source='company.id')
+    final_choice = serializers.ReadOnlyField(source='company.id')
 
     class Meta:
         model = TeamChoices
