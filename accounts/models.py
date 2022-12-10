@@ -131,6 +131,6 @@ class TeamChoices(models.Model):
     choice_second = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='choice_second')
     choice_third = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='choice_third')
     choice_fourth = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='choice_fourth')
-    final_choice = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, related_name='choice_one')
+    final_choice = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True, related_name='choice_one')
     is_considered = models.BooleanField(default=False)  # czy rozpatrzony przy administratora
     date = models.DateField(default=datetime.date.today)

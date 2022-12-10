@@ -118,6 +118,7 @@ class TeamChoicesSerializer(serializers.ModelSerializer):
         model = TeamChoices
         fields = [
             'id',
+            'team',
             'choice_first',
             'choice_second',
             'choice_third',

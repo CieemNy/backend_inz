@@ -214,10 +214,10 @@ class AddTeamChoices(APIView):
         else:
             team_choices = TeamChoices.objects.create(
                 team=team,
-                choice_first=team_choices_data['choice_first'],
-                choice_second=team_choices_data['choice_second'],
-                choice_third=team_choices_data['choice_third'],
-                choice_fourth=team_choices_data['choice_fourth'],
+                choice_first=Company.objects.get(id=team_choices_data['choice_first']),
+                choice_second=Company.objects.get(id=team_choices_data['choice_second']),
+                choice_third=Company.objects.get(id=team_choices_data['choice_third']),
+                choice_fourth=Company.objects.get(id=team_choices_data['choice_fourth']),
             )
             serializer = TeamChoicesSerializer(team_choices)
             return Response(serializer.data)

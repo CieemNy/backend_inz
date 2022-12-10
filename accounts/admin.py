@@ -25,7 +25,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 class TeamChoicesAdmin(admin.ModelAdmin):
-    list_display = ['id', 'team', 'choice_first', 'choice_second', 'choice_third', 'choice_fourth', 'final_choice', 'choice_first', 'is_considered', 'date']
+    list_display = ['id', 'team', 'choice_first', 'choice_second', 'choice_third', 'choice_fourth', 'final_choice', 'is_considered', 'date']
 
 
 admin.site.register(UserAccount, UserAccountAdmin)
