@@ -2,7 +2,7 @@ from django.urls import path, include
 from . import views
 from django.contrib import admin
 
-from .views import JoinTeam, CreateProject, ListCompanyProject
+from .views import JoinTeam, CreateProject, ListCompanyProject, AddTeamChoices
 
 admin.site.site_url = 'http://127.0.0.1:8000/accounts/'
 urlpatterns = [
@@ -23,5 +23,7 @@ urlpatterns = [
     path('teams/create', views.CreateTeam.as_view(), name='create-team'),
     # company project endpoints
     path('company/<int:pk>/projects/', ListCompanyProject.as_view(), name='display-projects'),
-    path('company/<int:pk>/projects/add', CreateProject.as_view(), name='create-project')
+    path('company/<int:pk>/projects/add', CreateProject.as_view(), name='create-project'),
+    # team choices endpoints
+    path('teams/<int:pk>/choices/add', AddTeamChoices.as_view(), name='team-members'),
 ]

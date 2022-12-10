@@ -181,3 +181,43 @@ class ListCompanyProject(APIView):
         projects = Project.objects.filter(company=company)
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
+
+
+class AddTeamChoices(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, pk):
+        team = Team.objects.get(id=pk)
+        team_choices_data = request.data
+        if team.user != self.request.user:
+            return Response("Nie jesteś liderem zespołu!", status.HTTP_403_FORBIDDEN)
+
+        elif team_choices_data['choice_first'] == team_choices_data['choice_second']:
+            return Response("Wybory nie mogą się powtarzać!", status.HTTP_403_FORBIDDEN)
+
+        elif team_choices_data['choice_first'] == team_choices_data['choice_third']:
+            return Response("Wybory nie mogą się powtarzać!", status.HTTP_403_FORBIDDEN)
+
+        elif team_choices_data['choice_first'] == team_choices_data['choice_fourth']:
+            return Response("Wybory nie mogą się powtarzać!", status.HTTP_403_FORBIDDEN)
+
+        elif team_choices_data['choice_second'] == team_choices_data['choice_third']:
+            return Response("Wybory nie mogą się powtarzać!", status.HTTP_403_FORBIDDEN)
+
+        elif team_choices_data['choice_second'] == team_choices_data['choice_fourth']:
+            return Response("Wybory nie mogą się powtarzać!", status.HTTP_403_FORBIDDEN)
+
+        elif team_choices_data['choice_third'] == team_choices_data['choice_fourth']:
+            return Response("Wybory nie mogą się powtarzać!", status.HTTP_403_FORBIDDEN)
+
+        else:
+            team_choices = TeamChoices.objects.create(
+                team=team,
+                choice_first=team_choices_data['choice_first'],
+                choice_second=team_choices_data['choice_second'],
+                choice_third=team_choices_data['choice_third'],
+                choice_fourth=team_choices_data['choice_fourth'],
+            )
+            serializer = TeamChoicesSerializer(team_choices)
+            return Response(serializer.data)
