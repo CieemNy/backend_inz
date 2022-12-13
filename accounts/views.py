@@ -193,6 +193,9 @@ class AddTeamChoices(APIView):
         if team.user != self.request.user:
             return Response("Nie jesteś liderem zespołu!", status.HTTP_403_FORBIDDEN)
 
+        elif team.occupied_places != team.places:
+            return Response("Twój zespół nie jest skompletowany", status.HTTP_403_FORBIDDEN)
+
         elif team_choices_data['choice_first'] == team_choices_data['choice_second']:
             return Response("Wybory nie mogą się powtarzać!", status.HTTP_403_FORBIDDEN)
 
