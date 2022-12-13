@@ -244,3 +244,12 @@ class TeamChoicesDetail(generics.RetrieveAPIView):
     serializer_class = TeamChoicesSerializer
     name = 'team-choices-detail'
 
+
+# endpoint: display team choices
+
+@api_view(['GET'])
+def team_choices(request, pk):
+    if request.method == 'GET':
+        choices = TeamChoices.objects.all().filter(team=pk)
+        serializer = TeamChoicesSerializer(choices, many=True)
+        return Response(serializer.data)
