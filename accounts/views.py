@@ -224,3 +224,9 @@ class AddTeamChoices(APIView):
             )
             serializer = TeamChoicesSerializer(team_choices)
             return Response(serializer.data)
+
+
+class TeamChoicesDetail(generics.RetrieveAPIView):
+    queryset = TeamChoices.objects.all()
+    serializer_class = TeamChoicesSerializer
+    name = 'team-choices-detail'
