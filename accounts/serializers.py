@@ -26,7 +26,8 @@ class UserCreateSerializer(UserCreateSerializer):
             'is_member',
             'is_company',
             'is_verified',
-            'is_ownerCompany'
+            'is_ownerCompany',
+            'is_madeChoices'
         ]
 
 
@@ -48,7 +49,8 @@ class CompanySerializer(serializers.ModelSerializer):
             'contact_email',
             'occupied_places',
             'places',
-            'companyMan'
+            'companyMan',
+            'creation_date'
         ]
 
 
@@ -102,7 +104,8 @@ class ProjectSerializer(serializers.ModelSerializer):
             'title',
             'description',
             'front',
-            'back'
+            'back',
+            'creation_date'
         ]
 
 
