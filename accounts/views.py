@@ -253,3 +253,21 @@ def team_choices(request, pk):
         choices = TeamChoices.objects.all().filter(team=pk)
         serializer = TeamChoicesSerializer(choices, many=True)
         return Response(serializer.data)
+
+
+class SelectFinalChoice(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+
+    def put(self, request, pk):
+        data = request.data
+        choice = TeamChoices.objects.get(id=pk)
+        company = Company.objects.get(id=data['final_choice'])
+        if company.occupied_places >= company.places:
+            return Response("Brak dostępnych miejsc", status.HTTP_403_FORBIDDEN)
+        else:
+            choice.final_choice = company
+            choice.is_considered = True
+            choice.save()
+            company.occupied_places += 1
+            company.save()
