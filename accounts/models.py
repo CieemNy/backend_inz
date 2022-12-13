@@ -66,7 +66,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_leader = models.BooleanField(default=False)  # czy lider zespołu
     is_member = models.BooleanField(default=False)  # czy członek zespołu
     is_company = models.BooleanField(default=False)  # czy przedstawiciel firmy
-    is_companyOwner = models.BooleanField(default=False)  # czy jest właścicielem firmy
+    is_companyOwner = models.BooleanField(default=False)  # czy jest właścicielem firmy, flaga zabezpieczajaca
+    is_madeChoices = models.BooleanField(default=True)  # czy dokonał wyborów, flaga zabezpieczajaca
 
     objects = UserAccountManager()
 
@@ -92,6 +93,7 @@ class Company(models.Model):
     contact_email = models.CharField(max_length=255)
     occupied_places = models.IntegerField(default=0)
     places = models.IntegerField()
+    creation_date = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
         return self.name
@@ -103,7 +105,7 @@ class Team(models.Model):
     access_code = models.CharField(max_length=255)
     occupied_places = models.IntegerField(default=0)
     places = models.IntegerField()
-    creation_date = models.DateField(default=datetime.date.today)
+    creation_date = models.DateTimeField(default=datetime.date.today)
 
     def __str__(self):
         return self.name
@@ -120,6 +122,7 @@ class Project(models.Model):
     description = models.CharField(max_length=255)
     front = models.CharField(max_length=255)
     back = models.CharField(max_length=255)
+    creation_date = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
         return self.title
@@ -133,4 +136,4 @@ class TeamChoices(models.Model):
     choice_fourth = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='choice_fourth')
     final_choice = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True, related_name='choice_one')
     is_considered = models.BooleanField(default=False)  # czy rozpatrzony przy administratora
-    date = models.DateField(default=datetime.date.today)
+    date = models.DateTimeField(default=datetime.datetime.now)
