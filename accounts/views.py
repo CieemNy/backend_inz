@@ -229,7 +229,7 @@ class AddTeamChoices(APIView):
 # endpoint: display teams choices
 
 class TeamsChoices(generics.ListAPIView):
-    queryset = TeamChoices.objects.all()
+    queryset = TeamChoices.objects.all().order_by('-choice_first', 'choice_second', 'choice_third', 'choice_fourth', 'date')
     serializer_class = TeamChoicesSerializer
     name = 'team-choices'
 
@@ -240,3 +240,4 @@ class TeamChoicesDetail(generics.RetrieveAPIView):
     queryset = TeamChoices.objects.all()
     serializer_class = TeamChoicesSerializer
     name = 'team-choices-detail'
+
