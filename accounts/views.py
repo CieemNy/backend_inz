@@ -264,10 +264,12 @@ class SelectFinalChoice(APIView):
         choice = TeamChoices.objects.get(id=pk)
         company = Company.objects.get(id=data['final_choice'])
         if company.occupied_places >= company.places:
-            return Response("Brak dostępnych miejsc", status.HTTP_403_FORBIDDEN)
+            return Response("Brak dostępnych miejsc w wybranej firmie", status.HTTP_403_FORBIDDEN)
         else:
             choice.final_choice = company
             choice.is_considered = True
             choice.save()
             company.occupied_places += 1
             company.save()
+            serializer = TeamChoicesSerializer(choice)
+            return Response(serializer.data)
