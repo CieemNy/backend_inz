@@ -71,6 +71,7 @@ class CreateTeam(generics.CreateAPIView):
         serializer.save(user=self.request.user, occupied_places=1)
         self.request.user.is_leader = True
         self.request.user.is_member = True
+        self.request.user.is_madeChoices = False
         self.request.user.save()
         if serializer.is_valid():
             team = Team.objects.get(pk=serializer.data['id'])
@@ -222,6 +223,8 @@ class AddTeamChoices(APIView):
                 choice_third=Company.objects.get(id=team_choices_data['choice_third']),
                 choice_fourth=Company.objects.get(id=team_choices_data['choice_fourth']),
             )
+            request.user.is_madeChoices = True
+            request.user.save()
             serializer = TeamChoicesSerializer(team_choices)
             return Response(serializer.data)
 
