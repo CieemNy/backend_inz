@@ -230,3 +230,9 @@ class TeamChoicesDetail(generics.RetrieveAPIView):
     queryset = TeamChoices.objects.all()
     serializer_class = TeamChoicesSerializer
     name = 'team-choices-detail'
+
+
+class TeamsChoices(generics.ListAPIView):
+    queryset = TeamChoices.objects.all()
+    serializer_class = TeamChoicesSerializer
+    name = 'team-choices'
