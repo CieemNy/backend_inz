@@ -26,6 +26,7 @@ urlpatterns = [
     path('company/<int:pk>/projects/add', CreateProject.as_view(), name='create-project'),
     # team choices endpoints
     path('teams/<int:pk>/choices/add', AddTeamChoices.as_view(), name='team-choices-add'),
+    path('teams/<int:pk>/choices', views.team_choices, name='team-choices'),
     # team choices endpoints: admin
     path('teams/choices', views.TeamsChoices.as_view(), name='teams-choices'),
     path('teams/choices/<int:pk>', views.TeamChoicesDetail.as_view(), name='teams-choices'),
