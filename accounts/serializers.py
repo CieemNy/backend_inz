@@ -109,7 +109,26 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class TeamChoicesSerializer(serializers.ModelSerializer):
-    first = serializers.RelatedField(source='company.name', read_only=True)
+    first = serializers.SerializerMethodField()
+    second = serializers.SerializerMethodField()
+    third = serializers.SerializerMethodField()
+    fourth = serializers.SerializerMethodField()
+    final = serializers.SerializerMethodField()
+
+    def get_first(self, obj):
+        return f'{obj.choice_first.name}'
+
+    def get_second(self, obj):
+        return f'{obj.choice_second.name}'
+
+    def get_third(self, obj):
+        return f'{obj.choice_third.name}'
+
+    def get_fourth(self, obj):
+        return f'{obj.choice_fourth.name}'
+
+    def get_final(self, obj):
+        return f'{obj.final_choice}'
 
     class Meta:
         model = TeamChoices
@@ -123,5 +142,9 @@ class TeamChoicesSerializer(serializers.ModelSerializer):
             'final_choice',
             'is_considered',
             'date',
-            'first'
+            'first',
+            'second',
+            'third',
+            'fourth',
+            'final',
         ]
