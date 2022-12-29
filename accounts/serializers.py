@@ -114,6 +114,7 @@ class TeamChoicesSerializer(serializers.ModelSerializer):
     third = serializers.SerializerMethodField()
     fourth = serializers.SerializerMethodField()
     final = serializers.SerializerMethodField()
+    teamName = serializers.SerializerMethodField()
 
     def get_first(self, obj):
         return f'{obj.choice_first.name}'
@@ -129,6 +130,8 @@ class TeamChoicesSerializer(serializers.ModelSerializer):
 
     def get_final(self, obj):
         return f'{obj.final_choice}'
+    def get_teamName(self, obj):
+        return f'{obj.team.name}'
 
     class Meta:
         model = TeamChoices
@@ -147,4 +150,5 @@ class TeamChoicesSerializer(serializers.ModelSerializer):
             'third',
             'fourth',
             'final',
+            'teamName'
         ]
