@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 import datetime
+from django.utils import timezone
 
 
 class UserAccountManager(BaseUserManager):
@@ -93,7 +94,7 @@ class Company(models.Model):
     contact_email = models.CharField(max_length=255)
     occupied_places = models.IntegerField(default=0)
     places = models.IntegerField()
-    creation_date = models.DateTimeField(default=datetime.datetime.now)
+    creation_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
@@ -105,7 +106,7 @@ class Team(models.Model):
     access_code = models.CharField(max_length=255)
     occupied_places = models.IntegerField(default=0)
     places = models.IntegerField()
-    creation_date = models.DateTimeField(default=datetime.date.today)
+    creation_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
@@ -122,7 +123,7 @@ class Project(models.Model):
     description = models.CharField(max_length=255)
     front = models.CharField(max_length=255)
     back = models.CharField(max_length=255)
-    creation_date = models.DateTimeField(default=datetime.datetime.now)
+    creation_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.title
@@ -136,4 +137,4 @@ class TeamChoices(models.Model):
     choice_fourth = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='choice_fourth')
     final_choice = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True, related_name='choice_one')
     is_considered = models.BooleanField(default=False)  # czy rozpatrzony przy administratora
-    date = models.DateTimeField(default=datetime.datetime.now)
+    date = models.DateTimeField(default=timezone.now)
