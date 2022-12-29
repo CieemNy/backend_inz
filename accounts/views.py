@@ -191,6 +191,9 @@ class AddTeamChoices(APIView):
     def post(self, request, pk):
         team = Team.objects.get(id=pk)
         team_choices_data = request.data
+        if self.request.user.is_madeChoices:
+            return Response("Dokonałeś już wyborów", status.HTTP_403_FORBIDDEN)
+
         if team.user != self.request.user:
             return Response("Nie jesteś liderem zespołu!", status.HTTP_403_FORBIDDEN)
 
