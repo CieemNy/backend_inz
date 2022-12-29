@@ -285,5 +285,5 @@ class UserTeamChoices(generics.ListAPIView):
     name = 'user-team-choices'
 
     def get_queryset(self):
-        return TeamChoices.objects.filter(team__user=self.request.user)
+        return TeamChoices.objects.filter(team__members__user=self.request.user)
 

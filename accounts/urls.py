@@ -11,7 +11,7 @@ urlpatterns = [
     path('users/<int:pk>', views.UserDetail.as_view(), name='user-detail'),
     path('user/team', views.UserTeam.as_view(), name='user-team'),
     path('user/company', views.UserCompany.as_view(), name='user-company'),
-    path('user/team/choices', views.UserTeamChoices.as_view(), name='user-team'),
+    path('user/team/choices', views.UserTeamChoices.as_view(), name='user-team-choices'),
     # company endpoints
     path('company', views.ListCompany.as_view(), name='list-company'),
     path('company/<int:pk>', views.CompanyDetail.as_view(), name='company-detail'),

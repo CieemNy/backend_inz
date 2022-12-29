@@ -109,6 +109,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class TeamChoicesSerializer(serializers.ModelSerializer):
+    first = serializers.RelatedField(source='company.name', read_only=True)
 
     class Meta:
         model = TeamChoices
@@ -122,4 +123,5 @@ class TeamChoicesSerializer(serializers.ModelSerializer):
             'final_choice',
             'is_considered',
             'date',
+            'first'
         ]
