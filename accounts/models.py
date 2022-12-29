@@ -73,7 +73,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname', 'is_company', 'is_superuser', 'is_leader', 'is_member', 'is_verified',
-                       'is_companyOwner']
+                       'is_companyOwner', 'is_madeChoices']
 
     def get_full_name(self):
         return self.name + ' ' + self.surname

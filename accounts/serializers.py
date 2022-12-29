@@ -55,7 +55,6 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.name')
     leader = serializers.SerializerMethodField()
 
     def get_leader(self, obj):

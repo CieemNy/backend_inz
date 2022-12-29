@@ -276,3 +276,14 @@ class SelectFinalChoice(APIView):
             company.save()
             serializer = TeamChoicesSerializer(choice)
             return Response(serializer.data)
+
+
+# endpoint: display user team choices
+
+class UserTeamChoices(generics.ListAPIView):
+    serializer_class = TeamChoicesSerializer
+    name = 'user-team-choices'
+
+    def get_queryset(self):
+        return TeamChoices.objects.filter(team__user=self.request.user)
+
