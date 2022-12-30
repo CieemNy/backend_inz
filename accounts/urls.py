@@ -32,6 +32,7 @@ urlpatterns = [
     # team choices endpoints: admin
     path('teams/choices', views.TeamsChoices.as_view(), name='teams-choices-not-considered'),
     path('teams/choices/considered', views.TeamsChoicesConsidered.as_view(), name='teams-choices-considered'),
+    path('teams/choices/list', views.FinalListTeamsCompanies.as_view(), name='final-list-teams-companies'),
     path('teams/choices/<int:pk>', views.TeamChoicesDetail.as_view(), name='team-choices-details'),
     path('teams/choices/<int:pk>/finalchoice', SelectFinalChoice.as_view(), name='select-team-final-choice'),
 ]

@@ -248,6 +248,14 @@ class TeamsChoicesConsidered(generics.ListAPIView):
     name = 'team-choices-considered'
 
 
+# endpoint: display teams choices which are considered
+
+class FinalListTeamsCompanies(generics.ListAPIView):
+    queryset = TeamChoices.objects.all().order_by('final_choice').filter(is_considered=True)
+    serializer_class = TeamChoicesSerializer
+    name = 'final-list-teams-companies'
+
+
 # endpoint: display single team choices
 
 class TeamChoicesDetail(generics.RetrieveAPIView):
