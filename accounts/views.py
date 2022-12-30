@@ -2,7 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+from django.db.models import F
 from .serializers import *
 from rest_framework import permissions, status
 from rest_framework import generics
@@ -287,3 +287,10 @@ class UserTeamChoices(generics.ListAPIView):
     def get_queryset(self):
         return TeamChoices.objects.filter(team__members__user=self.request.user)
 
+
+# endpoint: list companies where are available places
+
+class ListCompanyPlaces(generics.ListAPIView):
+    queryset = Company.objects.all().filter(occupied_places__lt=F('places'))
+    serializer_class = CompanySerializer
+    name = 'company-list-available-places'

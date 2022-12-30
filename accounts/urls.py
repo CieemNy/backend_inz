@@ -14,6 +14,7 @@ urlpatterns = [
     path('user/team/choices', views.UserTeamChoices.as_view(), name='user-team-choices'),
     # company endpoints
     path('company', views.ListCompany.as_view(), name='list-company'),
+    path('company/places', views.ListCompanyPlaces.as_view(), name='company-list-available-places'),
     path('company/<int:pk>', views.CompanyDetail.as_view(), name='company-detail'),
     path('company/add', views.CreateCompany.as_view(), name='create-company'),
     # teams endpoints
