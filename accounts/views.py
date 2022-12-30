@@ -232,12 +232,20 @@ class AddTeamChoices(APIView):
             return Response(serializer.data)
 
 
-# endpoint: display teams choices
+# endpoint: display teams choices which are not considered
 
 class TeamsChoices(generics.ListAPIView):
-    queryset = TeamChoices.objects.all().order_by('-choice_first', 'choice_second', 'choice_third', 'choice_fourth', 'date')
+    queryset = TeamChoices.objects.all().order_by('-choice_first', 'choice_second', 'choice_third', 'choice_fourth', 'date').filter(is_considered=False)
     serializer_class = TeamChoicesSerializer
-    name = 'team-choices'
+    name = 'team-choices-not-considered'
+
+
+# endpoint: display teams choices which are considered
+
+class TeamsChoicesConsidered(generics.ListAPIView):
+    queryset = TeamChoices.objects.all().filter(is_considered=True)
+    serializer_class = TeamChoicesSerializer
+    name = 'team-choices-considered'
 
 
 # endpoint: display single team choices
