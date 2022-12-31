@@ -5,51 +5,24 @@ from django.utils import timezone
 
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, name, surname, password=None, is_company=None):
+    def create_user(self, email, name, surname, password=None, is_company=None, **extra_fields):
         if not email:
             raise ValueError('Users must have an email address')
 
         email = self.normalize_email(email)
         email = email.lower()
-        user = self.model(email=email, name=name, surname=surname, is_company=is_company)
+        user = self.model(email=email, name=name, surname=surname, is_company=is_company, **extra_fields)
 
         user.set_password(password)
         user.save()
 
         return user
 
-    def create_superuser(self, email, name, surname, password=None, is_company=None):
-        user = self.create_user(email, name, surname, password, is_company=is_company)
+    def create_superuser(self, email, name, surname, password=None, is_company=None, **extra_fields):
+        user = self.create_user(email, name, surname, password, is_company=is_company, **extra_fields)
 
         user.is_superuser = True
         user.is_staff = True
-
-        user.save()
-
-        return user
-
-    def create_leader(self, email, name, surname, password=None):
-        user = self.create_user(email, name, surname, password)
-
-        user.is_leader = True
-
-        user.save()
-
-        return user
-
-    def create_member(self, email, name, surname, password=None):
-        user = self.create_user(email, name, surname, password)
-
-        user.is_member = True
-
-        user.save()
-
-        return user
-
-    def create_company(self, email, name, surname, password=None):
-        user = self.create_user(email, name, surname, password)
-
-        user.is_company = True
 
         user.save()
 
