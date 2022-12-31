@@ -26,7 +26,8 @@ class UserCreateSerializer(UserCreateSerializer):
             'is_member',
             'is_company',
             'is_verified',
-            'is_ownerCompany'
+            'is_ownerCompany',
+            'is_madeChoices'
         ]
 
 
@@ -48,12 +49,12 @@ class CompanySerializer(serializers.ModelSerializer):
             'contact_email',
             'occupied_places',
             'places',
-            'companyMan'
+            'companyMan',
+            'creation_date'
         ]
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.name')
     leader = serializers.SerializerMethodField()
 
     def get_leader(self, obj):
@@ -102,5 +103,52 @@ class ProjectSerializer(serializers.ModelSerializer):
             'title',
             'description',
             'front',
-            'back'
+            'back',
+            'creation_date'
+        ]
+
+
+class TeamChoicesSerializer(serializers.ModelSerializer):
+    first = serializers.SerializerMethodField()
+    second = serializers.SerializerMethodField()
+    third = serializers.SerializerMethodField()
+    fourth = serializers.SerializerMethodField()
+    final = serializers.SerializerMethodField()
+    teamName = serializers.SerializerMethodField()
+
+    def get_first(self, obj):
+        return f'{obj.choice_first.name}'
+
+    def get_second(self, obj):
+        return f'{obj.choice_second.name}'
+
+    def get_third(self, obj):
+        return f'{obj.choice_third.name}'
+
+    def get_fourth(self, obj):
+        return f'{obj.choice_fourth.name}'
+
+    def get_final(self, obj):
+        return f'{obj.final_choice}'
+    def get_teamName(self, obj):
+        return f'{obj.team.name}'
+
+    class Meta:
+        model = TeamChoices
+        fields = [
+            'id',
+            'team',
+            'choice_first',
+            'choice_second',
+            'choice_third',
+            'choice_fourth',
+            'final_choice',
+            'is_considered',
+            'date',
+            'first',
+            'second',
+            'third',
+            'fourth',
+            'final',
+            'teamName'
         ]
