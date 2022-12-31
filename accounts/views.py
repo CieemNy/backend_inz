@@ -15,6 +15,7 @@ User = get_user_model()
 # endpoint: display list of users
 
 class UserList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAdminUser,)
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
     name = 'users-list'
@@ -23,6 +24,7 @@ class UserList(generics.ListCreateAPIView):
 # endpoint: display, edit, delete user details
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAdminUser,)
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
     name = 'user-detail'
@@ -235,7 +237,8 @@ class AddTeamChoices(APIView):
 # endpoint: display teams choices which are not considered
 
 class TeamsChoices(generics.ListAPIView):
-    queryset = TeamChoices.objects.all().order_by('-choice_first', 'choice_second', 'choice_third', 'choice_fourth', 'date').filter(is_considered=False)
+    permission_classes = (permissions.IsAdminUser,)
+    queryset = TeamChoices.objects.all().order_by('choice_first', 'choice_second', 'choice_third', 'choice_fourth', 'date').filter(is_considered=False)
     serializer_class = TeamChoicesSerializer
     name = 'team-choices-not-considered'
 
@@ -243,6 +246,7 @@ class TeamsChoices(generics.ListAPIView):
 # endpoint: display teams choices which are considered
 
 class TeamsChoicesConsidered(generics.ListAPIView):
+    permission_classes = (permissions.IsAdminUser,)
     queryset = TeamChoices.objects.all().filter(is_considered=True)
     serializer_class = TeamChoicesSerializer
     name = 'team-choices-considered'
@@ -251,6 +255,7 @@ class TeamsChoicesConsidered(generics.ListAPIView):
 # endpoint: display teams choices which are considered
 
 class FinalListTeamsCompanies(generics.ListAPIView):
+    permission_classes = (permissions.IsAdminUser,)
     queryset = TeamChoices.objects.all().order_by('final_choice').filter(is_considered=True)
     serializer_class = TeamChoicesSerializer
     name = 'final-list-teams-companies'
@@ -259,6 +264,7 @@ class FinalListTeamsCompanies(generics.ListAPIView):
 # endpoint: display single team choices
 
 class TeamChoicesDetail(generics.RetrieveAPIView):
+    permission_classes = (permissions.IsAdminUser,)
     queryset = TeamChoices.objects.all()
     serializer_class = TeamChoicesSerializer
     name = 'team-choices-detail'
@@ -307,6 +313,7 @@ class UserTeamChoices(generics.ListAPIView):
 # endpoint: list companies where are available places
 
 class ListCompanyPlaces(generics.ListAPIView):
+    permission_classes = (permissions.IsAdminUser, )
     queryset = Company.objects.all().filter(occupied_places__lt=F('places'))
     serializer_class = CompanySerializer
     name = 'company-list-available-places'
