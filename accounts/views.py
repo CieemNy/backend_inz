@@ -246,7 +246,7 @@ class AddTeamChoices(APIView):
 
 class TeamsChoices(generics.ListAPIView):
     permission_classes = (permissions.IsAdminUser,)
-    queryset = TeamChoices.objects.all().order_by('choice_first', 'choice_second', 'choice_third', 'choice_fourth', 'date').filter(is_considered=False)
+    queryset = TeamChoices.objects.all().order_by('-choice_first', '-choice_second', '-choice_third', '-choice_fourth', 'date').filter(is_considered=False)
     serializer_class = TeamChoicesSerializer
     name = 'team-choices-not-considered'
 
