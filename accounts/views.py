@@ -71,22 +71,26 @@ class CreateTeam(APIView):
 
     def post(self, request):
         data = self.request.data
-        team = Team.objects.create(
-            user=self.request.user,
-            name=data['name'],
-            access_code=data['access_code'],
-            occupied_places=1,
-            places=data['places']
-        )
-        team.save()
-        self.request.user.is_leader = True
-        self.request.user.is_member = True
-        self.request.user.is_madeChoices = False
-        self.request.user.save()
-        member = Members.objects.create(team=team, user=self.request.user)
-        member.save()
-        serializer = TeamSerializer(team)
-        return Response(serializer.data)
+        if self.request.user.is_leader is True or self.request.user.is_member is True or self.request.user.is_company is True:
+            return Response("Posiadasz jedną z ról, które uniemozliwiają stworzenie zespołu",
+                            status.HTTP_403_FORBIDDEN)
+        else:
+            team = Team.objects.create(
+                user=self.request.user,
+                name=data['name'],
+                access_code=data['access_code'],
+                occupied_places=1,
+                places=data['places']
+            )
+            team.save()
+            self.request.user.is_leader = True
+            self.request.user.is_member = True
+            self.request.user.is_madeChoices = False
+            self.request.user.save()
+            member = Members.objects.create(team=team, user=self.request.user)
+            member.save()
+            serializer = TeamSerializer(team)
+            return Response(serializer.data)
 
 
 # endpoint: display team
@@ -246,7 +250,7 @@ class AddTeamChoices(APIView):
 
 class TeamsChoices(generics.ListAPIView):
     permission_classes = (permissions.IsAdminUser,)
-    queryset = TeamChoices.objects.all().order_by('choice_first', 'choice_second', 'choice_third', 'choice_fourth', 'date').filter(is_considered=False)
+    queryset = TeamChoices.objects.all().order_by('-choice_first', '-choice_second', '-choice_third', '-choice_fourth', 'date').filter(is_considered=False)
     serializer_class = TeamChoicesSerializer
     name = 'team-choices-not-considered'
 
