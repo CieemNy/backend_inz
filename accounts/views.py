@@ -65,20 +65,28 @@ class CompanyDetail(generics.RetrieveAPIView):
 
 # endpoint: create team
 
-class CreateTeam(generics.CreateAPIView):
-    serializer_class = TeamSerializer
-    name = 'team-create'
+class CreateTeam(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = (permissions.IsAuthenticated,)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user, occupied_places=1)
+    def post(self, request):
+        data = self.request.data
+        team = Team.objects.create(
+            user=self.request.user,
+            name=data['name'],
+            access_code=data['access_code'],
+            occupied_places=1,
+            places=data['places']
+        )
+        team.save()
         self.request.user.is_leader = True
         self.request.user.is_member = True
         self.request.user.is_madeChoices = False
         self.request.user.save()
-        if serializer.is_valid():
-            team = Team.objects.get(pk=serializer.data['id'])
-            member = Members.objects.create(team=team, user=self.request.user)
-            member.save()
+        member = Members.objects.create(team=team, user=self.request.user)
+        member.save()
+        serializer = TeamSerializer(team)
+        return Response(serializer.data)
 
 
 # endpoint: display team
@@ -88,7 +96,7 @@ class TeamDetail(generics.RetrieveAPIView):
     name = 'team-detail'
 
 
-# endpoint: create team
+# endpoint: list teams
 
 class ListTeams(generics.ListAPIView):
     queryset = Team.objects.all()
