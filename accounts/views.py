@@ -1,5 +1,3 @@
-from django.http import HttpResponse, JsonResponse
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.db.models import F
@@ -150,7 +148,7 @@ class JoinTeam(APIView):
             return Response("Nieprawidłowy kod dostępu do teamu", status.HTTP_403_FORBIDDEN)
         if team.occupied_places >= team.places:
             return Response("Brak dostępnych miejsc", status.HTTP_403_FORBIDDEN)
-        if self.request.user.is_leader == True or self.request.user.is_member == True or self.request.user.is_company == True:
+        if self.request.user.is_leader is True or self.request.user.is_member is True or self.request.user.is_company is True:
             return Response("Posiadasz jedną z ról, które uniemozliwiają dołaczenie do zespołu",
                             status.HTTP_403_FORBIDDEN)
         else:
